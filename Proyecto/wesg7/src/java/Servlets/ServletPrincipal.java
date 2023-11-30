@@ -449,6 +449,7 @@ public class ServletPrincipal extends HttpServlet {
                     direccion.setIdDireccion(rs.getInt("idDireccion"));
                     direccion.setLinea1(rs.getString("linea1"));
                     direccion.setLinea2(rs.getString("linea2"));
+                    direccion.setIdDistrito(rs.getString("idDistrito"));
                     direccion.setCodigoPostal(rs.getString("codigoPostal"));
                     direccion.setDistrito(rs.getString("distrito"));
                     direccion.setMunicipio(rs.getString("municipio"));
@@ -457,8 +458,7 @@ public class ServletPrincipal extends HttpServlet {
 
                     listaDireccion.add(direccion);
 
-                    System.out.println("IdDireccion: " + direccion.getIdDireccion());
-                    System.out.println("linea1: " + direccion.getLinea1());
+                    
                     // Añadir logs o impresiones para otros campos si es necesario
                 }
                 request.setAttribute("listaDireccion", listaDireccion);
@@ -484,10 +484,10 @@ public class ServletPrincipal extends HttpServlet {
                 String sql = "insert into Direcciones values (?, ?, ?, ?)";
                 //nombresCliente, apellidosCliente, dui, telefono, eMail, idDireccion
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(3, Direccion);
-                pstmt.setString(1, Referencia); 
-                pstmt.setString(4, IdDistrito);
-                pstmt.setString(2, CodigoPostal);
+                pstmt.setString(1, Direccion);
+                pstmt.setString(2, Referencia); 
+                pstmt.setString(3, IdDistrito);
+                pstmt.setString(4, CodigoPostal);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
                     request.getSession().setAttribute("exito", true);

@@ -25,7 +25,12 @@
                 <label>Referencia:</label>
                 <input type="text" name="linea2" id="linea2" required /><br><br>
                 <label>ID Distrito:</label>
-                <input type="text" name="idDistrito" id="idDistrito" required /><br><br> 
+                <select id="idDistrito" name="idDistrito">
+                    <option value="-1">seleccione</option>
+                    <c:forEach items="${listaDireccion}" var="item">
+                        <option value="${item.idDistrito}">${item.idDistrito}</option>
+                    </c:forEach>
+                </select><br><br>
                 <label>Codigo Postal:</label>
                 <input type="text" name="codigoPostal" id="codigoPostal" required /><br><br> 
                 <input type="submit" value="Registrar" onclick="return confirm('¿Desea registrar la direccion?')" /><br><br>

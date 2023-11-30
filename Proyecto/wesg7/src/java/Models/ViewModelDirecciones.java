@@ -8,8 +8,17 @@ public class ViewModelDirecciones {
     private String distrito;
     private String municipio;
     private String departamento;
-    private String pais ;
+    private String pais;
+    private String idDistrito;
 
+    public String getIdDistrito() {
+        return idDistrito;
+    }
+
+    public void setIdDistrito(String idDistrito) {
+        this.idDistrito = idDistrito;
+    }
+    
     public int getIdDireccion() {
         return idDireccion;
     }
