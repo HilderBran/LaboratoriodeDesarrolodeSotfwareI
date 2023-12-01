@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/aula2/Desktop/LaboratoriodeDesarrolodeSotfwareI-main%20(1)/LaboratoriodeDesarrolodeSotfwareI-main/Proyecto/wesg7/src/java/Servlets/ServletPrincipal.java</file>
-            <file>file:/C:/Users/aula2/Desktop/LaboratoriodeDesarrolodeSotfwareI-main%20(1)/LaboratoriodeDesarrolodeSotfwareI-main/Proyecto/wesg7/src/java/Models/ViewModelDirecciones.java</file>
-            <file>file:/C:/Users/aula2/Desktop/LaboratoriodeDesarrolodeSotfwareI-main%20(1)/LaboratoriodeDesarrolodeSotfwareI-main/Proyecto/wesg7/web/acciones/Direcciones/agregarDireccion.jsp</file>
-            <file>file:/C:/Users/aula2/Desktop/LaboratoriodeDesarrolodeSotfwareI-main%20(1)/LaboratoriodeDesarrolodeSotfwareI-main/Proyecto/wesg7/web/acciones/Direcciones/gestionarDirecciones.jsp</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/menus/menuAdministrador.jsp</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/acciones/usuarios/gestionarUsuarios.jsp</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/src/java/Servlets/ServletPrincipal.java</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/src/java/Models/ViewModelUsuarios.java</file>
         </group>
     </open-files>
 </project-private>

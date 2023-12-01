@@ -22,6 +22,7 @@
                 <li><a href="/wesg7?accion=GestionarCargos">Gestionar Cargos</a></li>
                 <li><a href="/wesg7?accion=MostrarDirecciones">Gestionar Direcciones</a></li>
                 <li><a href="/wesg7?accion=MostrarUsuarios">Gestionar Usuarios</a></li>
+                <li><a href="/wesg7?accion=GestionarCategorias">Gestionar Categorias</a></li>
             </ul>
         </nav>
     </body>

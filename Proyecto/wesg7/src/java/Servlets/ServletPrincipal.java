@@ -9,6 +9,8 @@ import Models.ViewModelClientes;
 import Models.ViewModelCargo;
 import Models.ViewModelDirecciones;
 import Models.ViewModelUsuarios;
+import Models.ViewModelCategorias;
+import Models.ViewModelStok;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -532,6 +534,206 @@ public class ServletPrincipal extends HttpServlet {
             ex.printStackTrace();
         }
     }
+     
+     public void mostrarCategorias(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            try(Connection conn = DriverManager.getConnection(url)){
+            //try (Connection conn = DriverManager.getConnection(url);) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sqlQuery = "select * from CategoriasProductos";
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+                ResultSet rs = pstmt.executeQuery();
+                ArrayList<ViewModelCategorias> listaCategorias = new ArrayList<>();
+                while (rs.next()) {
+                    ViewModelCategorias categorias = new ViewModelCategorias();
+                    categorias.setIdCategoria(rs.getInt("idCategorias"));
+                    categorias.setCategoria(rs.getString("categoria"));
+                    categorias.setDetalles(rs.getString("detallles"));
+                    listaCategorias.add(categorias);
+                }               
+                request.setAttribute("listaCategorias", listaCategorias);
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.setAttribute("mensaje_conexion", ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+     
+     public void agregarCategoria(HttpServletRequest request, HttpServletResponse response) {
+        String categoria = request.getParameter("categoria");
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sql = "insert into CategoriasProductos values (?), (?)";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, categoria);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void modificarCategoria(HttpServletRequest request, HttpServletResponse response) {
+        String idCategoria = request.getParameter("idCategoria");
+        String categoria = request.getParameter("categoria");
+        String detalles = request.getParameter("detalles");
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+
+                String sql = "update CategoriasProductos set "
+                        + "detalles='" + detalles + "' "
+                        + "categoria='" + categoria + "' "
+                        + "where idCategoria='" + idCategoria + "'";
+
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
+        String idCategoria = request.getParameter("idCategoria");
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sql = "delete from Categorias where idCategoria='" + idCategoria + "'";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void mostrarStok(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            try(Connection conn = DriverManager.getConnection(url)){
+            //try (Connection conn = DriverManager.getConnection(url);) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sqlQuery = "select * from DetallesStok";
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+                ResultSet rs = pstmt.executeQuery();
+                ArrayList<ViewModelStok> listaStok = new ArrayList<>();
+                while (rs.next()) {
+                    ViewModelStok stok = new ViewModelStok();
+                    stok.setIdStok(rs.getInt("idStok"));
+                    stok.setCantidadStok(rs.getString("cantidadStok"));
+                    stok.setDescripcion(rs.getString("descripcion"));
+                    listaStok.add(stok);
+                }               
+                request.setAttribute("listaStok", listaStok);
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.setAttribute("mensaje_conexion", ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+     
+     public void agregarStok(HttpServletRequest request, HttpServletResponse response) {
+        String stok = request.getParameter("stok");
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sql = "insert into DetallesStok values (?), (?)";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, stok);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void modificarStok(HttpServletRequest request, HttpServletResponse response) {
+        String idStok = request.getParameter("idStok");
+        String cantidadStok = request.getParameter("cantidadStok");
+        String descripcion = request.getParameter("descripcion");
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+
+                String sql = "update DetallesStok set "
+                        + "descripcion='" + descripcion + "' "
+                        + "cantidadStok='" + cantidadStok + "' "
+                        + "where idStok='" + idStok + "'";
+
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void eliminarStok(HttpServletRequest request, HttpServletResponse response) {
+        String idStok = request.getParameter("idStok");
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sql = "delete from DetallesStok where idStok='" + idStok + "'";
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                int registros = pstmt.executeUpdate();
+                if (registros > 0) {
+                    request.getSession().setAttribute("exito", true);
+                } else {
+                    request.getSession().setAttribute("exito", false);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -594,17 +796,32 @@ public class ServletPrincipal extends HttpServlet {
             mostrarDirecciones(request, response);
             request.getRequestDispatcher("/acciones/Direcciones/gestionarDirecciones.jsp").forward(request, response);
         }
-        else if (accion.equals("AgregarDireccion")) {
+        else if (accion.equals("MostrarUsuarios")) {
+            mostrarUsuarios(request, response);
+            request.getRequestDispatcher("/acciones/usuarios/gestionarUsuarios.jsp").forward(request, response);
+        }
+        else if (accion.equals("GestionarCategorias")) {
+            mostrarCategorias(request, response);
+            request.getRequestDispatcher("/acciones/categorias/gestionarCategorias.jsp").forward(request, response);
+        }
+        else if (accion.equals("AgregarCategoria")) {
             if (request.getSession().getAttribute("exito") != null) {
                 request.setAttribute("exito", request.getSession().getAttribute("exito"));
                 request.getSession().removeAttribute("exito");
             }
-            request.getRequestDispatcher("/acciones/Direcciones/agregarDireccion.jsp").forward(request, response);
+            request.getRequestDispatcher("/acciones/categoria/agregarCategoria.jsp").forward(request, response);
         }
         
-        else if (accion.equals("MostrarUsuarios")) {
-            mostrarUsuarios(request, response);
-            request.getRequestDispatcher("/acciones/usuarios/gestionarUsuarios.jsp").forward(request, response);
+        else if (accion.equals("GestionarStok")) {
+            mostrarStok(request, response);
+            request.getRequestDispatcher("/acciones/stok/gestionarStok.jsp").forward(request, response);
+        }
+        else if (accion.equals("AgregarStok")) {
+            if (request.getSession().getAttribute("exito") != null) {
+                request.setAttribute("exito", request.getSession().getAttribute("exito"));
+                request.getSession().removeAttribute("exito");
+            }
+            request.getRequestDispatcher("/acciones/stok/agregarStok.jsp").forward(request, response);
         }
     }
 
@@ -676,10 +893,25 @@ public class ServletPrincipal extends HttpServlet {
             eliminarCargo(request, response);
             response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=GestionarCargos");
         }
-        
-        else if (accion.equals("AgregarDireccion")) {
-            agregarCargo(request, response);
-            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=AgregarDireccion");
+        else if (accion.equals("AgregarCategoria")) {
+            agregarCategoria(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=AgregarCategoria");
+        } else if (accion.equals("ModificarCategoria")) {
+            modificarCategoria(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=GestionarCategorias");
+        } else if (accion.equals("EliminarCategoria")) {
+            eliminarCategoria(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=GestionarCategorias");
+        }
+        else if (accion.equals("AgregarStok")) {
+            agregarStok(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=AgregarStok");
+        } else if (accion.equals("ModificarStok")) {
+            modificarStok(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=GestionarStok");
+        } else if (accion.equals("EliminarStok")) {
+            eliminarStok(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletPrincipal?accion=GestionarStok");
         }
     }
 
