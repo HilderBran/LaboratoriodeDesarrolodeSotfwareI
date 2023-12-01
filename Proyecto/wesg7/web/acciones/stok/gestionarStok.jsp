@@ -1,17 +1,50 @@
-<%-- 
-    Document   : gestionarStock
-    Created on : 30 nov 2023, 23:06:26
-    Author     : santo
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Gestionar Usuarios</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Gestión de Usuarios</h1>
+        <h2>Listado de Usuarios</h2>
+        <br>
+        <h3>Conexion: ${mensaje_conexion}</h3>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Stok</th>
+                    <th>Cantidad Stok</th>
+                    <th>Descripcion</th>
+                    <th>Opcion</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${listaStok}" var="item">
+                    <tr>
+                        <td><c:out value="${item.idStok}" /></td>
+                        <td><c:out value="${item.cantidadStok}" /></td> 
+                        <td><c:out value="${item.descripcion}" /></td> 
+                        <td>
+                            <form method="POST" action="/wesg7/acciones/stok/ModificarStok.jsp">
+                                <input type="hidden" name="idStok" value="${item.idStok}" />
+                                <input type="hidden" name="cantidadStok" value="${item.cantidadStok}" />             
+                                <input type="hidden" name="cantidadStok" value="${item.descripcion}" />             
+                                <input type="submit" value="Modificar" />
+                            </form>    
+                            <form method="POST" action="/wesg7/acciones/stok/eliminarStok.jsp">
+                                <input type="hidden" name="idStok" value="${item.idStok}" />
+                                <input type="hidden" name="cantidadStok" value="${item.cantidadStok}" />             
+                                <input type="hidden" name="descripcion" value="${item.descripcion}" />             
+                                <input type="submit" value="Eliminar" />
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>            
+        </table>
     </body>
 </html>

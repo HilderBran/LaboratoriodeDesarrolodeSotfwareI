@@ -19,6 +19,7 @@
                 <tr>
                     <th>ID Cargo</th>
                     <th>Cargo</th>
+                    <th>Opcion</th>
                 </tr>
             </thead>
             <tbody>
