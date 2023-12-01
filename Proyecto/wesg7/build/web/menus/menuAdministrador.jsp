@@ -21,6 +21,7 @@
                 <li><a href="/wesg7?accion=GestionClientes">Gestionar Clientes</a></li>
                 <li><a href="/wesg7?accion=GestionarCargos">Gestionar Cargos</a></li>
                 <li><a href="/wesg7?accion=MostrarDirecciones">Gestionar Direcciones</a></li>
+                <li><a href="/wesg7?accion=MostrarUsuarios">Gestionar Usuarios</a></li>
             </ul>
         </nav>
     </body>

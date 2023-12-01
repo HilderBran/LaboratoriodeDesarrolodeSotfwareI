@@ -8,6 +8,7 @@ import Models.viewModelEmpleados;
 import Models.ViewModelClientes;
 import Models.ViewModelCargo;
 import Models.ViewModelDirecciones;
+import Models.ViewModelUsuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -500,6 +501,38 @@ public class ServletPrincipal extends HttpServlet {
             ex.printStackTrace();
         }
     }
+     
+     public void mostrarUsuarios(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            try (Connection conn = DriverManager.getConnection(url)) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sqlQuery = "select * from VistaUsuarios";
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+                ResultSet rs = pstmt.executeQuery();
+                ArrayList<ViewModelUsuarios> listaUsuarios = new ArrayList<>();
+                while (rs.next()) {
+                    ViewModelUsuarios usuario = new ViewModelUsuarios();
+                    usuario.setIdUsuario(rs.getInt("idUsuario"));
+                    usuario.setNombresEmpleado(rs.getString("nombresEmpleado"));
+                    usuario.setApellidosEmpleado(rs.getString("apellidosEmpleado"));
+                    usuario.setMombreRol(rs.getString("mombreRol"));
+                    usuario.setUsuario(rs.getString("usuario"));
+                    usuario.setClave(rs.getString("clave"));
+                    listaUsuarios.add(usuario);
+                String sql = "insert into Direcciones values (?, ?, ?, ?)";
+              
+                }
+                request.setAttribute("listaUsuarios", listaUsuarios);
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.setAttribute("mensaje_conexion", ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -567,6 +600,11 @@ public class ServletPrincipal extends HttpServlet {
                 request.getSession().removeAttribute("exito");
             }
             request.getRequestDispatcher("/acciones/Direcciones/agregarDireccion.jsp").forward(request, response);
+        }
+        
+        else if (accion.equals("MostrarUsuarios")) {
+            mostrarUsuarios(request, response);
+            request.getRequestDispatcher("/acciones/usuarios/gestionarUsuarios.jsp").forward(request, response);
         }
     }
 
