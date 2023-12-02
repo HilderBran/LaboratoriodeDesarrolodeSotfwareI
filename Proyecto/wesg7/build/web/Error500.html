@@ -6,13 +6,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <html>
     <head>
         <title>ERROR: 500</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body>
-        <h1>Lo Sentimos!... Ha Ocurrido un Error[500]...</h1>
-        <button onclick="Regresar()">Regresar</button>
-        
+    <body class="text-center">
+    <div class="container">
+        <h1 class="mt-5">Lo sentimos, no se puede encontrar el recurso [404]</h1>
+        <button class="btn btn-primary mt-3" onclick="Regresar()">Regresar</button>
+    </div>
         <script>
             function Regresar(){
                 window.history.back();
