@@ -24,6 +24,7 @@
                 <li><a href="/wesg7?accion=MostrarUsuarios">Gestionar Usuarios</a></li>
                 <li><a href="/wesg7?accion=GestionarCategorias">Gestionar Categorias</a></li>
                 <li><a href="/wesg7?accion=GestionarStok">Gestionar Detalles Stok</a></li>
+                <li><a href="/wesg7?accion=GestionarFactura">Gestionar Facturas</a></li>
             </ul>
         </nav>
     </body>

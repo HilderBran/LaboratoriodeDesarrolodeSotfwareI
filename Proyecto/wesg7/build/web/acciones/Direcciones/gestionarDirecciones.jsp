@@ -20,7 +20,6 @@
         <br>
         <h3>Conexion: ${mensaje_conexion}</h3>
         
-        <a href="/wesg7?accion=AgregarDireccion">Agregar direccion</a><br><br>
 
         <table border="1">
             <tr>

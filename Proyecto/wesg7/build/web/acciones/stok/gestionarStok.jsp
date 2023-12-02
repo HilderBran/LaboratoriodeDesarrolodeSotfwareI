@@ -5,13 +5,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Gestionar Usuarios</title>
+        <title>Gestionar Detalles Stok</title>
     </head>
     <body>
-        <h1>Gestión de Usuarios</h1>
-        <h2>Listado de Usuarios</h2>
+        <h1>Gestión de Stok</h1>
+        <h2>Listado de Detalles Stok</h2>
         <br>
         <h3>Conexion: ${mensaje_conexion}</h3>
+        <a href="/wesg7?accion=AgregarStok">Agregar Stok</a><br><br>
 
         <table border="1">
             <thead>
@@ -32,7 +33,7 @@
                             <form method="POST" action="/wesg7/acciones/stok/ModificarStok.jsp">
                                 <input type="hidden" name="idStok" value="${item.idStok}" />
                                 <input type="hidden" name="cantidadStok" value="${item.cantidadStok}" />             
-                                <input type="hidden" name="cantidadStok" value="${item.descripcion}" />             
+                                <input type="hidden" name="descripcion" value="${item.descripcion}" />             
                                 <input type="submit" value="Modificar" />
                             </form>    
                             <form method="POST" action="/wesg7/acciones/stok/eliminarStok.jsp">

@@ -4,9 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/menus/menuAdministrador.jsp</file>
-            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/acciones/usuarios/gestionarUsuarios.jsp</file>
-            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/src/java/Servlets/ServletPrincipal.java</file>
-            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/src/java/Models/ViewModelUsuarios.java</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/acciones/stok/gestionarStok.jsp</file>
+            <file>file:/C:/Users/santo/Desktop/LaboratorioDesarrolloSoftwareI/LaboratoriodeDesarrolodeSotfwareI/Proyecto/wesg7/web/acciones/cargos/gestionarCargo.jsp</file>
         </group>
     </open-files>
 </project-private>

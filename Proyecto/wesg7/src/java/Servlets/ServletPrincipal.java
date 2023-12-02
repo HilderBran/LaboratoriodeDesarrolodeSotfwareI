@@ -11,6 +11,7 @@ import Models.ViewModelDirecciones;
 import Models.ViewModelUsuarios;
 import Models.ViewModelCategorias;
 import Models.ViewModelStok;
+import Models.ViewModelFacturas;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -452,7 +453,6 @@ public class ServletPrincipal extends HttpServlet {
                     direccion.setIdDireccion(rs.getInt("idDireccion"));
                     direccion.setLinea1(rs.getString("linea1"));
                     direccion.setLinea2(rs.getString("linea2"));
-                    direccion.setIdDistrito(rs.getString("idDistrito"));
                     direccion.setCodigoPostal(rs.getString("codigoPostal"));
                     direccion.setDistrito(rs.getString("distrito"));
                     direccion.setMunicipio(rs.getString("municipio"));
@@ -471,39 +471,6 @@ public class ServletPrincipal extends HttpServlet {
             ex.printStackTrace();
         }
     }
-     
-     public void agregarDireccion(HttpServletRequest request, HttpServletResponse response) {
-       //CAPTURA DE VARIABLES
-       //El ID de las direcciones es autoincrementable
-        String Direccion = request.getParameter("linea1");
-        String Referencia = request.getParameter("linea2");
-        String IdDistrito = request.getParameter("idDistrito");
-        String CodigoPostal = request.getParameter("codigoPostal");
-        
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            try (Connection conn = DriverManager.getConnection(url)) {
-                request.setAttribute("mensaje_conexion", "Ok!");
-                String sql = "insert into Direcciones values (?, ?, ?, ?)";
-                //nombresCliente, apellidosCliente, dui, telefono, eMail, idDireccion
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, Direccion);
-                pstmt.setString(2, Referencia); 
-                pstmt.setString(3, IdDistrito);
-                pstmt.setString(4, CodigoPostal);
-                int registros = pstmt.executeUpdate();
-                if (registros > 0) {
-                    request.getSession().setAttribute("exito", true);
-                } else {
-                    request.getSession().setAttribute("exito", false);
-                }
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            request.getSession().setAttribute("exito", false);
-            ex.printStackTrace();
-        }
-    }
-     
      public void mostrarUsuarios(HttpServletRequest request, HttpServletResponse response) {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -548,9 +515,9 @@ public class ServletPrincipal extends HttpServlet {
                 ArrayList<ViewModelCategorias> listaCategorias = new ArrayList<>();
                 while (rs.next()) {
                     ViewModelCategorias categorias = new ViewModelCategorias();
-                    categorias.setIdCategoria(rs.getInt("idCategorias"));
+                    categorias.setIdCategoria(rs.getInt("idCategoria"));
                     categorias.setCategoria(rs.getString("categoria"));
-                    categorias.setDetalles(rs.getString("detallles"));
+                    categorias.setDetalles(rs.getString("detalles"));
                     listaCategorias.add(categorias);
                 }               
                 request.setAttribute("listaCategorias", listaCategorias);
@@ -564,14 +531,16 @@ public class ServletPrincipal extends HttpServlet {
      
      public void agregarCategoria(HttpServletRequest request, HttpServletResponse response) {
         String categoria = request.getParameter("categoria");
+        String detalles = request.getParameter("detalles");
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             try (Connection conn = DriverManager.getConnection(url)) {
                 request.setAttribute("mensaje_conexion", "Ok!");
-                String sql = "insert into CategoriasProductos values (?), (?)";
+                String sql = "insert into CategoriasProductos values (?, ?)";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, categoria);
+                pstmt.setString(2, detalles);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
                     request.getSession().setAttribute("exito", true);
@@ -586,20 +555,19 @@ public class ServletPrincipal extends HttpServlet {
     }
      
      public void modificarCategoria(HttpServletRequest request, HttpServletResponse response) {
+        ///CAPTURA DE VARIABLES
         String idCategoria = request.getParameter("idCategoria");
         String categoria = request.getParameter("categoria");
         String detalles = request.getParameter("detalles");
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             try (Connection conn = DriverManager.getConnection(url)) {
                 request.setAttribute("mensaje_conexion", "Ok!");
-
-                String sql = "update CategoriasProductos set "
-                        + "detalles='" + detalles + "' "
-                        + "categoria='" + categoria + "' "
-                        + "where idCategoria='" + idCategoria + "'";
-
+                String sql = "UPDATE CategoriasProductos "
+                        + "SET detalles = '"+detalles+"'," 
+                        + "categoria = '"+categoria+"'" 
+                        + "WHERE idCategoria = '"+idCategoria+"'";
+                
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
@@ -614,13 +582,13 @@ public class ServletPrincipal extends HttpServlet {
         }
     }
      
-     public void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
+    public void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
         String idCategoria = request.getParameter("idCategoria");
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             try (Connection conn = DriverManager.getConnection(url)) {
                 request.setAttribute("mensaje_conexion", "Ok!");
-                String sql = "delete from Categorias where idCategoria='" + idCategoria + "'";
+                String sql = "delete from CategoriasProductos where idCategoria= '"+idCategoria+"'";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
@@ -662,16 +630,18 @@ public class ServletPrincipal extends HttpServlet {
         }
     }
      
-     public void agregarStok(HttpServletRequest request, HttpServletResponse response) {
-        String stok = request.getParameter("stok");
+    public void agregarStok(HttpServletRequest request, HttpServletResponse response) {
+        String cantidadStok = request.getParameter("cantidadStok");
+        String descripcion = request.getParameter("descripcion");
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             try (Connection conn = DriverManager.getConnection(url)) {
                 request.setAttribute("mensaje_conexion", "Ok!");
-                String sql = "insert into DetallesStok values (?), (?)";
+                String sql = "insert into DetallesStok values (?, ?)";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, stok);
+                pstmt.setString(1, cantidadStok);
+                pstmt.setString(2, descripcion);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
                     request.getSession().setAttribute("exito", true);
@@ -685,21 +655,20 @@ public class ServletPrincipal extends HttpServlet {
         }
     }
      
-     public void modificarStok(HttpServletRequest request, HttpServletResponse response) {
+    public void modificarStok(HttpServletRequest request, HttpServletResponse response) {
+        ///CAPTURA DE VARIABLES
         String idStok = request.getParameter("idStok");
         String cantidadStok = request.getParameter("cantidadStok");
         String descripcion = request.getParameter("descripcion");
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             try (Connection conn = DriverManager.getConnection(url)) {
                 request.setAttribute("mensaje_conexion", "Ok!");
-
-                String sql = "update DetallesStok set "
-                        + "descripcion='" + descripcion + "' "
-                        + "cantidadStok='" + cantidadStok + "' "
-                        + "where idStok='" + idStok + "'";
-
+                String sql = "UPDATE DetallesStok "
+                        + "SET descripcion = '"+descripcion+"'," 
+                        + "cantidadStok = '"+cantidadStok+"'" 
+                        + "WHERE idStok = '"+idStok+"'";
+                
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 int registros = pstmt.executeUpdate();
                 if (registros > 0) {
@@ -731,6 +700,46 @@ public class ServletPrincipal extends HttpServlet {
             }
         } catch (SQLException | ClassNotFoundException ex) {
             request.getSession().setAttribute("exito", false);
+            ex.printStackTrace();
+        }
+    }
+     
+     public void mostrarFacturas(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            try(Connection conn = DriverManager.getConnection(url)){
+            //try (Connection conn = DriverManager.getConnection(url);) {
+                request.setAttribute("mensaje_conexion", "Ok!");
+                String sqlQuery = "select * from VistaFactura";
+                PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
+                ResultSet rs = pstmt.executeQuery();
+                ArrayList<ViewModelFacturas> listaFacturas = new ArrayList<>();
+                while (rs.next()) {
+                    ViewModelFacturas factura = new ViewModelFacturas();
+                    factura.setIdDetalles(rs.getInt("idDetalles"));
+                    factura.setCliente(rs.getString("cliente"));
+                    factura.setEmpleado(rs.getString("empleado"));
+                    factura.setFechaFactura(rs.getDate("fechaFactura"));
+                    factura.setComentario(rs.getString("comentario"));
+                    factura.setIdFactura(rs.getInt("idFactura"));
+                    factura.setIdProducto(rs.getInt("idProducto"));
+                    factura.setNombrep(rs.getString("nombrep"));
+                    factura.setPrecio(rs.getString("precio"));
+                    factura.setCantidad(rs.getString("cantidad"));
+                    factura.setIva(rs.getString("iva"));
+                    factura.setDescuento(rs.getString("descuento"));
+                    factura.setIdCliente(rs.getInt("idCliente"));
+                    
+                    factura.setIdEmpleado(rs.getInt("idEmpleado"));
+                  
+                    listaFacturas.add(factura);
+                }               
+                request.setAttribute("listaFacturas", listaFacturas);
+
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            request.setAttribute("mensaje_conexion", ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -809,7 +818,7 @@ public class ServletPrincipal extends HttpServlet {
                 request.setAttribute("exito", request.getSession().getAttribute("exito"));
                 request.getSession().removeAttribute("exito");
             }
-            request.getRequestDispatcher("/acciones/categoria/agregarCategoria.jsp").forward(request, response);
+            request.getRequestDispatcher("/acciones/categorias/agregarCategoria.jsp").forward(request, response);
         }
         
         else if (accion.equals("GestionarStok")) {
@@ -822,6 +831,10 @@ public class ServletPrincipal extends HttpServlet {
                 request.getSession().removeAttribute("exito");
             }
             request.getRequestDispatcher("/acciones/stok/agregarStok.jsp").forward(request, response);
+        }
+        else if (accion.equals("GestionarFactura")) {
+            mostrarFacturas(request, response);
+            request.getRequestDispatcher("/acciones/facturas/gestionarFacturas.jsp").forward(request, response);
         }
     }
 
